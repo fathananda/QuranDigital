@@ -5,39 +5,38 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class QuranRepository @Inject constructor( // DIPERBAIKI: Import added
+class QuranRepository @Inject constructor(
     private val apiService: QuranApiService
 ) {
-    suspend fun getSuratList(): kotlin.Result<List<Surat>> { // DIPERBAIKI: kotlin.Result
+    suspend fun getSuratList(): Result<List<Surat>> {
         return try {
             val response = apiService.getSuratList()
-            if (response.isSuccessful && response.body() != null) { // DIPERBAIKI: Import added
-                val suratList = response.body()!!.data.map { it.toDomainModel() } // DIPERBAIKI: Import added
-                kotlin.Result.success(suratList)
+            if (response.isSuccessful && response.body() != null) {
+                val suratList = response.body()!!.data.map { it.toDomainModel() }
+                Result.success(suratList)
             } else {
-                kotlin.Result.failure(Exception("Failed to load surat list"))
+                Result.failure(Exception("Failed to load surat list"))
             }
         } catch (e: Exception) {
-            kotlin.Result.failure(e)
+            Result.failure(e)
         }
     }
 
-    suspend fun getSuratDetail(id: Int): kotlin.Result<SuratDetail> { // DIPERBAIKI: kotlin.Result
+    suspend fun getSuratDetail(id: Int): Result<SuratDetail> {
         return try {
             val response = apiService.getSuratDetail(id)
-            if (response.isSuccessful && response.body() != null) { // DIPERBAIKI: Import added
-                val suratDetail = response.body()!!.data.toDomainModel() // DIPERBAIKI: Import added
-                kotlin.Result.success(suratDetail)
+            if (response.isSuccessful && response.body() != null) {
+                val suratDetail = response.body()!!.data.toDomainModel()
+                Result.success(suratDetail)
             } else {
-                kotlin.Result.failure(Exception("Failed to load surat detail"))
+                Result.failure(Exception("Failed to load surat detail"))
             }
         } catch (e: Exception) {
-            kotlin.Result.failure(e)
+            Result.failure(e)
         }
     }
 }
 
-// Extension functions untuk mapping - DIPERBAIKI
 fun SuratApiModel.toDomainModel(): Surat {
     return Surat(
         nomor = nomor,
@@ -57,7 +56,7 @@ fun SuratDetailApiModel.toDomainModel(): SuratDetail {
         jumlahAyat = jumlahAyat,
         tempatTurun = tempatTurun,
         arti = arti,
-        ayat = ayat.map { it.toDomainModel() } // DIPERBAIKI: it reference
+        ayat = ayat.map { it.toDomainModel() }
     )
 }
 

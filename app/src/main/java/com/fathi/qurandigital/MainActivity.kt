@@ -29,19 +29,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             QuranDigitalTheme {
-                // Request permissions
                 val permissionLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestMultiplePermissions()
                 ) { permissions ->
-                    // Handle permission results
                     val allGranted = permissions.values.all { it }
-                    if (allGranted) {
-                        // Permissions granted, continue with app functionality
-                    }
+
                 }
 
                 LaunchedEffect(Unit) {
-                    // Check and request permissions
                     val permissions = mutableListOf<String>()
 
                     if (ContextCompat.checkSelfPermission(
@@ -92,6 +87,5 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // ViewModels will be automatically cleared by Hilt
     }
 }

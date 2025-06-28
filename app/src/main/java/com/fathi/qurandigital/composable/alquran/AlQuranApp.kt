@@ -25,14 +25,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.fathi.qurandigital.QuranRepository
 import com.fathi.qurandigital.composable.murottal.MurottalScreen
 import com.fathi.qurandigital.composable.prayertime.PrayerTimeScreen
 import com.fathi.qurandigital.TabItem
+import com.fathi.qurandigital.viewmodel.MurottalViewModel
+import com.fathi.qurandigital.viewmodel.PrayerTimeViewModel
+import com.fathi.qurandigital.viewmodel.QuranViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlQuranApp(repository: QuranRepository){
+fun AlQuranApp(
+    quranViewModel: QuranViewModel,
+    prayerTimeViewModel: PrayerTimeViewModel,
+    murottalViewModel: MurottalViewModel
+) {
     var selectedTab by remember { mutableStateOf(0) }
 
     val tabs = listOf(
@@ -89,11 +95,10 @@ fun AlQuranApp(repository: QuranRepository){
     ){ innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             when(selectedTab){
-                0 -> QuranScreen()
-                1 -> PrayerTimeScreen()
-                2 -> MurottalScreen()
+                0 -> QuranScreen(viewModel = quranViewModel)
+                1 -> PrayerTimeScreen(viewModel = prayerTimeViewModel)
+                2 -> MurottalScreen(viewModel = murottalViewModel)
             }
         }
-
     }
 }

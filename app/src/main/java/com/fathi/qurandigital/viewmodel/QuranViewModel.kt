@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.fathi.qurandigital.QuranRepository
 import com.fathi.qurandigital.QuranUiState
 import com.fathi.qurandigital.Surat
-import com.fathi.qurandigital.getSampleSuratDetail
-import com.fathi.qurandigital.getSampleSuratList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,16 +35,12 @@ class QuranViewModel @Inject constructor(
                     },
                     onFailure = { error ->
                         _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            error = error.message
-                        )
+                            isLoading = false)
                     }
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    error = e.message
-                    )
+                    isLoading = false)
             }
         }
     }
@@ -64,16 +58,12 @@ class QuranViewModel @Inject constructor(
                     },
                     onFailure = { error ->
                         _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            error = error.message
-                        )
+                            isLoading = false,)
                     }
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    error = e.message
-                )
+                    isLoading = false)
             }
         }
     }
@@ -82,7 +72,4 @@ class QuranViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(selectedSurat = null)
     }
 
-    fun clearError() {
-        _uiState.value = _uiState.value.copy(error = null)
-    }
 }

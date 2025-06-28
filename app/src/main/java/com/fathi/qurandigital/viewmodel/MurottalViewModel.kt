@@ -66,7 +66,6 @@ class MurottalViewModel @Inject constructor(
     fun playSurat(surat: Surat, qari: String = "Mishary Rashid Al-Afasy") {
         viewModelScope.launch {
             try {
-                // Get surat detail for audio URL
                 repository.getSuratDetail(surat.nomor).fold(
                     onSuccess = { suratDetail ->
                         val audioUrl = generateAudioUrl(surat.nomor, qari)
@@ -171,7 +170,6 @@ class MurottalViewModel @Inject constructor(
     }
 
     private fun generateAudioUrl(suratNumber: Int, qari: String): String {
-        // Different qari have different URL patterns
         return when (qari) {
             "Mishary Rashid Al-Afasy" -> {
                 val formattedNumber = String.format("%03d", suratNumber)
@@ -186,7 +184,6 @@ class MurottalViewModel @Inject constructor(
                 "https://server12.mp3quran.net/maher/$formattedNumber.mp3"
             }
             else -> {
-                // Default to Mishary
                 val formattedNumber = String.format("%03d", suratNumber)
                 "https://server8.mp3quran.net/afs/$formattedNumber.mp3"
             }

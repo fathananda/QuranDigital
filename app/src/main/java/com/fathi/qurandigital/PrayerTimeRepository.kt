@@ -1,6 +1,7 @@
 package com.fathi.qurandigital
 
 
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -9,20 +10,20 @@ class PrayerTimeRepository @Inject constructor(
     private val apiService: PrayerTimeApiService
 ) {
     suspend fun getPrayerTimes(
-        latitude: Double = -6.2088, // Jakarta default
-        longitude: Double = 106.8456 // Jakarta default
-    ): kotlin.Result<List<PrayerTime>> {
+        latitude: Double = -6.2088,
+        longitude: Double = 106.8456
+    ): Result<List<PrayerTime>> {
         return try {
-            val response = apiService.getPrayerTimes(latitude, longitude)
+            val response: Response<PrayerTimeResponse> = apiService.getPrayerTimes(latitude, longitude)
             if (response.isSuccessful && response.body() != null) {
                 val timings = response.body()!!.data.timings
                 val prayerTimes = mapToPrayerTimeList(timings)
-                kotlin.Result.success(prayerTimes)
+                Result.success(prayerTimes)
             } else {
-                kotlin.Result.failure(Exception("Failed to load prayer times"))
+                Result.failure(Exception("Failed to load prayer times"))
             }
         } catch (e: Exception) {
-            kotlin.Result.failure(e)
+            Result.failure(e)
         }
     }
 
@@ -34,11 +35,10 @@ class PrayerTimeRepository @Inject constructor(
             PrayerTime("Ashar", formatTime(timings.Asr)),
             PrayerTime("Maghrib", formatTime(timings.Maghrib)),
             PrayerTime("Isya", formatTime(timings.Isha))
-        ).filter { it.name != "Terbit" } // Remove sunrise from prayer times
+        ).filter { it.name != "Terbit" }
     }
 
     private fun formatTime(time: String): String {
-        // Remove timezone information if present (e.g., "05:30 (WIB)" -> "05:30")
         return time.split(" ")[0]
     }
 }

@@ -77,7 +77,6 @@ fun PrayerTimeScreen(viewModel: PrayerTimeViewModel = viewModel()) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Prayer Times
         if (uiState.isLoading) {
             Box(
                 modifier = Modifier.fillMaxWidth(),

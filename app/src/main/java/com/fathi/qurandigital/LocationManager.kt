@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
 import javax.inject.Inject
@@ -22,7 +23,7 @@ data class LocationInfo(
 
 @Singleton
 class LocationManager @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
@@ -54,7 +55,6 @@ class LocationManager @Inject constructor(
 
                             continuation.resume(locationInfo)
                         } catch (e: Exception) {
-                            // If geocoding fails, still return location with coordinates
                             val locationInfo = LocationInfo(
                                 latitude = location.latitude,
                                 longitude = location.longitude,
@@ -64,7 +64,6 @@ class LocationManager @Inject constructor(
                             continuation.resume(locationInfo)
                         }
                     } else {
-                        // Return default Jakarta location if location is null
                         val defaultLocation = LocationInfo(
                             latitude = -6.2088,
                             longitude = 106.8456,
@@ -74,7 +73,6 @@ class LocationManager @Inject constructor(
                         continuation.resume(defaultLocation)
                     }
                 }.addOnFailureListener {
-                    // Return default Jakarta location on failure
                     val defaultLocation = LocationInfo(
                         latitude = -6.2088,
                         longitude = 106.8456,
