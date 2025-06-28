@@ -3,7 +3,11 @@ package com.fathi.qurandigital
 data class PrayerTimeUiState(
     val prayerTimes: List<PrayerTime> = emptyList(),
     val location: String = "Jakarta, Indonesia",
-    val currentDate: String = "Jumat, 27 Juni 2025",
+    val currentDate: String = "",
+    val currentTime: String = "",
     val nextPrayer: String = "",
-    val isLoading: Boolean = false
+    val nextPrayerTime: String = "",
+    val timeUntilNext: String = "",
+    val isLoading: Boolean = false,
+    val error: String? = null
 )

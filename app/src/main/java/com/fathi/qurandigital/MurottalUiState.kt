@@ -5,7 +5,10 @@ data class MurottalUiState(
     val currentlyPlaying: MurottalTrack? = null,
     val isPlaying: Boolean = false,
     val downloadedSurats: Set<Int> = emptySet(),
-    val downloadingSurats: Set<Int> = emptySet()
+    val downloadingSurats: Set<Int> = emptySet(),
+    val currentPosition: Long = 0L,
+    val duration: Long = 0L,
+    val error: String? = null
 )
 
 data class MurottalTrack(

@@ -44,6 +44,10 @@ android {
     }
 }
 
+kapt{
+    correctErrorTypes = true
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -60,7 +64,9 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.datetime)
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     implementation(libs.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -69,6 +75,7 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.media3.common)
+    implementation("androidx.media:media:1.7.0")
 
     implementation(libs.accompanist.permissions)
     implementation(libs.coil.compose)
