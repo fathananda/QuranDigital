@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.fathi.qurandigital"
-    compileSdk = 34 // gunakan versi stabil
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.fathi.qurandigital"
@@ -40,7 +40,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13" // sesuaikan bila perlu
+        kotlinCompilerExtensionVersion = "1.5.13"
     }
 }
 
