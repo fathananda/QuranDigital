@@ -17,28 +17,20 @@ import com.fathi.qurandigital.viewmodel.QuranViewModel
 fun QuranScreen(viewModel: QuranViewModel = viewModel()){
     val uiState by viewModel.uiState.collectAsState()
 
-    Column (modifier = Modifier.fillMaxSize()){
-        when{
-            uiState.isLoading -> {
-                Box (modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ){
-                    CircularProgressIndicator()
-                }
-            }
-            uiState.selectedSurat != null -> {
-                SuratDetailScreen(
-                    surat = uiState.selectedSurat!!,
-                    onBackClick = { viewModel.clearSelectedSurat() }
-                )
-            }
-
-            else -> {
-                SuratListScreen(
-                    suratList = uiState.suratList,
-                    onSuratClick = { viewModel.selectSurat(it) }
-                )
-            }
+    when {
+        uiState.selectedSurat != null -> {
+            // Tampilkan detail surat tanpa bottom navigation
+            SuratDetailScreen(
+                surat = uiState.selectedSurat!!,
+                onBackClick = { viewModel.clearSelectedSurat() }
+            )
+        }
+        else -> {
+            // Tampilkan daftar surat dengan bottom navigation
+            SuratListScreen(
+                suratList = uiState.suratList,
+                onSuratClick = { surat -> viewModel.selectSurat(surat) }
+            )
         }
     }
 

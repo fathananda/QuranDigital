@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.PlayCircle
@@ -14,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,6 +27,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.fathi.qurandigital.composable.murottal.MurottalScreen
 import com.fathi.qurandigital.composable.prayertime.PrayerTimeScreen
 import com.fathi.qurandigital.TabItem
@@ -69,32 +74,57 @@ fun AlQuranApp(
         )
     }
 
-    Scaffold (
+    Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Al-Qur'an Digital")
+                    Text(
+                        "Al-Qur'an Digital",
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = Color(0xFF1B5E20), // Islamic green
+                    titleContentColor = Color.White
                 )
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface,
+                tonalElevation = 8.dp
+            ) {
                 tabs.forEachIndexed { index, tab ->
                     NavigationBarItem(
-                        icon = { Icon(tab.icon, contentDescription = tab.title)},
-                        label = { Text(tab.title)},
+                        icon = {
+                            Icon(
+                                tab.icon,
+                                contentDescription = tab.title,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        },
+                        label = {
+                            Text(
+                                tab.title,
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        },
                         selected = selectedTab == index,
-                        onClick = { selectedTab = index }
+                        onClick = { selectedTab = index },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color(0xFF2E7D32),
+                            selectedTextColor = Color(0xFF2E7D32),
+                            indicatorColor = Color(0xFF2E7D32).copy(alpha = 0.12f)
+                        )
                     )
                 }
             }
         }
-    ){ innerPadding ->
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            when(selectedTab){
+            when(selectedTab) {
                 0 -> QuranScreen(viewModel = quranViewModel)
                 1 -> PrayerTimeScreen(viewModel = prayerTimeViewModel)
                 2 -> MurottalScreen(viewModel = murottalViewModel)
